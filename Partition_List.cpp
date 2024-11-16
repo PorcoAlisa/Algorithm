@@ -8,6 +8,7 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+/* Solution 1
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
@@ -47,17 +48,49 @@ public:
         delete virHead;
         return ans;
     }
+}; */
+
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode *dummy1 = new ListNode(-1, nullptr);
+        ListNode *dummy2 = new ListNode(-1, nullptr);
+
+        ListNode *p1 = dummy1;
+        ListNode *p2 = dummy2;
+
+        ListNode *cur = head;
+        while (cur != nullptr) {
+            if (cur->val < x) {
+                p1->next = cur;
+                p1 = p1->next;
+            } else {
+                p2->next = cur;
+                p2 = p2->next;
+            }
+            cur = cur->next;
+        }
+        p1->next = dummy2->next;
+        p2->next = nullptr;
+
+        head = dummy1->next;
+
+        delete dummy1;
+        delete dummy2;
+
+        return head;
+    }
 };
 
 int main()
 {
-    ListNode n1(1);
-    // ListNode n2(5, &n1);
-    // ListNode n3(0, &n2);
-    // ListNode n4(3, &n3);
-    // ListNode n5(4, &n4);
-    // ListNode n6(1, &n5);
+    ListNode n1(2);
+    ListNode n2(5, &n1);
+    ListNode n3(2, &n2);
+    ListNode n4(3, &n3);
+    ListNode n5(4, &n4);
+    ListNode n6(1, &n5);
 
     Solution s1;
-    s1.partition(&n1, 2);
+    s1.partition(&n6, 3);
 }
